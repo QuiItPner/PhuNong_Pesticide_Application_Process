@@ -391,9 +391,14 @@
     /* wave divider */
     /* Hero kết thúc bằng mép thẳng (đã bỏ sóng cong).
        Nền dưới hero cũng tối nên không cần dải bịt khe như hồi nền kem. */
+    /* Đáy hero đã mờ tan hết nhưng vẫn chiếm chỗ, cộng thêm padding-top của
+       section nữa nên hở ra khoảng trắng khá xa. Bỏ padding-top và kéo âm để
+       bảng lấn lên vùng đã trong suốt đó. */
     .hero+.section {
       position: relative;
       z-index: 2;
+      padding-top: 0;
+      margin-top: 0;
     }
 
     /* ============ SECTIONS ============ */
@@ -839,6 +844,10 @@
     @media (max-width:860px) {
       .section {
         padding: 60px 16px
+      }
+
+      .hero+.section {
+        margin-top: 0;
       }
 
       /* process table -> cards */
