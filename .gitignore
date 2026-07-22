@@ -1,0 +1,7 @@
+# Word documents
+*.doc
+*.docx
+*.docm
+
+# Agents folder
+.agents/
