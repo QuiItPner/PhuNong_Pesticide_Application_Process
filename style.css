@@ -572,21 +572,32 @@
       align-items: flex-end;
       justify-content: center;
       background: radial-gradient(60% 46% at 50% 88%, rgba(46, 139, 69, .16), transparent 72%);
+      /* Ảnh nguồn có viền trong suốt rộng quanh chai (chỉ ~50-68% canvas là
+         nội dung thật). Phóng to ảnh rồi cắt bớt phần thừa để chai to hơn,
+         không phải là padding CSS. */
+      overflow: hidden;
     }
 
     .prod-img-stage img {
-      height: 236px;
+      height: 274px;
       width: auto;
       object-fit: contain;
       filter: drop-shadow(0 14px 16px rgba(20, 50, 25, .22));
     }
 
     .prod-name {
+      display: block;
       margin-top: 12px;
       font-weight: 700;
       color: var(--green-800);
       font-size: 1.1rem;
       line-height: 1.35;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+
+    .prod-name:hover {
+      color: var(--green-500);
     }
 
     .prod-tag {
@@ -633,7 +644,7 @@
 
     .care-table thead th.c-img {
       text-align: center;
-      width: 260px
+      width: 340px
     }
 
     .care-table td.care-img-cell {
@@ -642,7 +653,7 @@
     }
 
     .care-img {
-      height: 145px;
+      height: 210px;
       width: auto;
       max-width: 100%;
       margin: 0 auto;
@@ -684,7 +695,13 @@
     .care-prod {
       font-weight: 700;
       color: var(--green-900);
-      font-size: 1.2rem
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color .2s ease;
+    }
+
+    .care-prod:hover {
+      color: var(--green-500);
     }
 
     .care-use {
@@ -906,7 +923,7 @@
       }
 
       .proc-table td.pest {
-        margin-bottom: 14px
+        margin-bottom: 2px
       }
 
       .proc-table td.pest::before,
@@ -934,7 +951,7 @@
       }
 
       .care-img {
-        height: 160px
+        height: 190px
       }
 
       .prod-wrap {
@@ -970,7 +987,7 @@
       }
 
       .prod-img-stage img {
-        height: 210px
+        height: 244px
       }
 
       .prod-name {
