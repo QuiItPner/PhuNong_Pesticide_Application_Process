@@ -330,6 +330,66 @@
       color: #ffd54f
     }
 
+    /* ============ STICKY HEADER ============ */
+    .sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(13, 44, 26, .92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, .15);
+      transform: translateY(-100%);
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, .3);
+    }
+
+    .sticky-header.active {
+      transform: translateY(0);
+    }
+
+    .sticky-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sticky-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .sticky-brand img {
+      height: 46px;
+      width: auto;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.2));
+    }
+
+    .sticky-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .sticky-nav .nav-link {
+      color: #eafbe6;
+      font-size: .98rem;
+      font-weight: 700;
+      transition: color .2s ease, background .2s ease;
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+
+    .sticky-nav .nav-link:hover {
+      color: #ffd54f;
+      background: rgba(255, 255, 255, .12);
+    }
+
     .hero-underline {
       width: 0;
       height: 5px;
@@ -449,6 +509,23 @@
       color: var(--tomato)
     }
 
+    /* ============ REVEAL ANIMATIONS (Mượt mà khi vào trang) ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .65s cubic-bezier(.22, 1, .36, 1), transform .65s cubic-bezier(.22, 1, .36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    tr.reveal {
+      transition-duration: .55s;
+    }
+
     /* ============ PROCESS TABLE (section 1) ============ */
     /* Nền trắng đặc: ưu tiên đọc nhanh, rõ dưới nắng.
        Bóng đen sâu để tách bảng khỏi nền tối phía sau. */
@@ -550,11 +627,44 @@
       background: linear-gradient(180deg, #ffffff, #f1f8ec);
       border: 1px solid #e4efdd;
       border-radius: var(--radius);
-      padding: 18px 16px 16px;
+      padding: 22px 16px 14px;
       text-align: center;
       box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
+      cursor: default;
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease, border-color .35s ease;
+    }
+
+    .prod-card:hover {
+      box-shadow: 0 10px 28px rgba(20, 60, 30, .14), 0 0 0 1px var(--green-500);
+      border-color: var(--green-500);
+    }
+
+    /* Shine sweep effect on hover */
+    .prod-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .6), transparent);
+      transform: rotate(25deg);
+      transition: opacity .3s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .prod-card:hover::before {
+      animation: shineSweep .8s ease forwards;
+    }
+
+    @keyframes shineSweep {
+      0% { left: -60%; opacity: 0; }
+      20% { opacity: 1; }
+      100% { left: 140%; opacity: 0; }
     }
 
     .prod-card::after {
@@ -571,11 +681,15 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      background: radial-gradient(60% 46% at 50% 88%, rgba(46, 139, 69, .16), transparent 72%);
-      /* Ảnh nguồn có viền trong suốt rộng quanh chai (chỉ ~50-68% canvas là
-         nội dung thật). Phóng to ảnh rồi cắt bớt phần thừa để chai to hơn,
-         không phải là padding CSS. */
+      background: radial-gradient(70% 38% at 50% 52%, rgba(46, 139, 69, .15) 0%, rgba(46, 139, 69, .04) 50%, transparent 82%);
       overflow: hidden;
+      transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
+      mask-image: linear-gradient(to bottom, #000 72%, transparent 98%);
+    }
+
+    .prod-card:hover .prod-img-stage img {
+      transform: scale(1.05);
     }
 
     .prod-img-stage img {
@@ -583,6 +697,7 @@
       width: auto;
       object-fit: contain;
       filter: drop-shadow(0 14px 16px rgba(20, 50, 25, .22));
+      transition: transform .4s cubic-bezier(.22, 1, .36, 1);
     }
 
     .prod-name {
@@ -592,12 +707,36 @@
       color: var(--green-800);
       font-size: 1.1rem;
       line-height: 1.35;
-      cursor: pointer;
-      transition: color .2s ease;
+      text-decoration: none;
     }
 
     .prod-name:hover {
+      color: var(--green-800);
+    }
+
+    .prod-hint {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--green-700);
+      text-decoration: none;
+      transition: color .2s ease;
+      cursor: pointer;
+    }
+
+    .prod-hint:hover {
       color: var(--green-500);
+      text-decoration: underline;
+    }
+
+    .care-item-row {
+      cursor: default;
+      transition: background .25s ease;
+    }
+
+    .care-item-row:hover {
+      background: #e8f5e2 !important;
     }
 
     .prod-tag {
@@ -1080,6 +1219,12 @@
 
       .back-to-top:hover {
         transform: none
+      }
+    }
+
+    @media (max-width: 680px) {
+      .sticky-header {
+        display: none !important;
       }
     }
   
